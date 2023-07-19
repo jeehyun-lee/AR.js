@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>AR.js Accelerometer Example</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+  </head>
+  <body>
+    <a-scene embedded arjs>
+      <!-- Add a virtual object to the scene -->
+      <a-box position="0 0.5 -1" color="red"></a-box>
+    </a-scene>
+
+    <script>
+      // Wait for the AR scene to load
+      document.querySelector('a-scene').addEventListener('loaded', function () {
+
+        // Request access to device motion data
+        if (window.DeviceMotionEvent) {
+          window.addEventListener('devicemotion', handleMotionEvent);
+        }
+
+        // Function to handle device motion events
+        function handleMotionEvent(event) {
+          // Retrieve the acceleration values from the event
+          var acceleration = event.acceleration;
+
+          // Update the position of the virtual object based on the acceleration values
+          var object = document.querySelector('a-box');
+          var currentPosition = object.getAttribute('position');
+
+          // Adjust the position using the acceleration values
+          currentPosition.x += acceleration.x * 0.01;
+          currentPosition.y += acceleration.y * 0.01;
+          currentPosition.z += acceleration.z * 0.01;
+
+          // Update the position attribute of the virtual object
+          object.setAttribute('position', currentPosition);
+        }
+      });
+    </script>
+  </body>
+</html>

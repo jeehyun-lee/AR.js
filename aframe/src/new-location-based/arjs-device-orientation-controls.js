@@ -22,6 +22,7 @@ AFRAME.registerComponent("arjs-device-orientation-controls", {
   },
 
   init: function () {
+    alert(`registerComponent("arjs-device-orientation-controls")`);
     this._orientationControls = new THREEx.DeviceOrientationControls(
       this.el.object3D
     );

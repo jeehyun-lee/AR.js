@@ -71,7 +71,9 @@ AFRAME.registerComponent("gps-new-camera", {
 
     const mobile = this._isMobile();
     this.el.setAttribute("look-controls-enabled", !mobile);
+    alert("isMobile : " + mobile);
     if (mobile) {
+      alert("enable ArjsDeviceOrientationControls");
       this.el.setAttribute("arjs-device-orientation-controls", true);
     }
 

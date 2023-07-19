@@ -46,6 +46,15 @@ class DeviceOrientationControls extends EventDispatcher {
 
     const onDeviceOrientationChangeEvent = function (event) {
       scope.deviceOrientation = event;
+      if (scope.alphaOffset === 0) {
+        scope.alphaOffset = event.webkitCompassHeading;
+      }
+      const el = document.getElementById("debug");
+      if (el) {
+        el.innerText = `${event.webkitCompassHeading}, ${event.alpha.toFixed(
+          5
+        )}, ${event.beta.toFixed(5)}, ${event.gamma}`;
+      }
     };
 
     const onScreenOrientationChangeEvent = function () {
@@ -132,12 +141,17 @@ class DeviceOrientationControls extends EventDispatcher {
 
       if (device) {
         let alpha = device.alpha
-          ? MathUtils.degToRad(device.alpha) + scope.alphaOffset
+          ? MathUtils.degToRad(device.alpha - scope.alphaOffset)
           : 0; // Z
 
         let beta = device.beta ? MathUtils.degToRad(device.beta) : 0; // X'
 
         let gamma = device.gamma ? MathUtils.degToRad(device.gamma) : 0; // Y''
+
+        // const el = document.getElementById('debug')
+        // if(el) {
+        //   el.innerText = `${alpha.toFixed(5)}, ${beta.toFixed(5)}, ${gamma}`;
+        // }
 
         const orient = scope.screenOrientation
           ? MathUtils.degToRad(scope.screenOrientation)
